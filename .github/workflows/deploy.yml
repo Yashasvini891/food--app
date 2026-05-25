@@ -21,16 +21,24 @@ jobs:
         working-directory: food-delivery-app
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: 18
+          node-version: 22.12
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: food-delivery-app/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('food-delivery-app/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build project
         run: npm run build
@@ -45,7 +53,7 @@ jobs:
         run: |
           aws s3 sync dist/ s3://${{ secrets.S3_BUCKET }} --delete
 
-      - name: Invalidate CloudFront
+      - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
