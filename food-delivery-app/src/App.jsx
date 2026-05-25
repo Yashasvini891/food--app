@@ -26,6 +26,15 @@ const restaurants = [
     rating: "4.7",
     description: "Authentic spicy biryani cooked with rich flavors and aroma.",
   },
+  {
+    id: 4,
+    name: "Ice Berg",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToNb4qLVc8li_M2NHBfEl14DaVpUCmplY5lg&s",
+    rating: "4.7",
+    description:
+      "Ice cream is a frozen dessert typically made from milk or cream ",
+  },
 ];
 
 export default function App() {
@@ -44,20 +53,37 @@ export default function App() {
       {/* Heading */}
       <h2 className="text-2xl font-semibold p-4">Restaurants Near You</h2>
 
-      {/* Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 p-4">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "16px",
+          padding: "16px",
+        }}
+      >
         {restaurants.map((res) => (
-          <div key={res.id} className="bg-white rounded-xl shadow">
+          <div
+            key={res.id}
+            style={{
+              background: "white",
+              borderRadius: "12px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+              padding: "10px",
+              display: "flex",
+              gap: "10px",
+              alignItems: "center",
+            }}
+          >
             <img
               src={res.image}
               alt={res.name}
-              style={{ width: "120px", height: "120px", objectFit: "cover" }}
+              style={{ width: "100px", height: "100px", objectFit: "cover" }}
             />
 
-            <div className="p-2">
+            <div>
               <h3 className="font-bold text-sm">{res.name}</h3>
-              <p className="text-gray-600 text-xs">⭐ {res.rating}</p>
-              <p className="text-gray-500 text-xs mt-1 line-clamp-2">
+              <p className="text-xs">⭐ {res.rating}</p>
+              <p className="text-xs text-gray-500 line-clamp-2">
                 {res.description}
               </p>
             </div>
